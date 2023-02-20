@@ -14,24 +14,16 @@ Duty cycle  -   Frequincy   -   Explanation
 Black forward
 White Back
 """
+import os     #importing os library so as to communicate with the system
+os.system ("sudo pigpio-master/pigpiod") #Launching GPIO library
+time.sleep(1) # As i said it is too impatient and so if this delay is removed you will get an error
+import pigpio #importing GPIO library
 import time
-import RPi.GPIO as GPIO
-GPIO.setwarnings(False)
-GPIO.setmode(GPIO.BOARD)
 
-GPIOPWM1=12 # GPIO who has PWM
-GPIOPWM2=32 # GPIO who has PWM
-GPIOPWM3=33 # GPIO who has PWM
-GPIOPWM4=35 # GPIO who has PWM
-
-GPIO.setup(GPIOPWM1,GPIO.OUT)
-GPIO.setup(GPIOPWM2,GPIO.OUT)
-GPIO.setup(GPIOPWM3,GPIO.OUT)
-GPIO.setup(GPIOPWM4,GPIO.OUT)
-motor1=GPIO.PWM(GPIOPWM1,1000)
-motor2=GPIO.PWM(GPIOPWM2,1000)
-motor3=GPIO.PWM(GPIOPWM3,1000)
-motor4=GPIO.PWM(GPIOPWM4,1000)
+motor1=23  #Connect the ESC in this GPIO pin
+motor2=27  #Connect the ESC in this GPIO pin
+motor3=22  #Connect the ESC in this GPIO pin
+motor4=10  #Connect the ESC in this GPIO pin
 
 #1st motor left black
 #2st motor right black
@@ -39,38 +31,35 @@ motor4=GPIO.PWM(GPIOPWM4,1000)
 #4st motor right white
 #rearange this depending on how motors are wired
 motors=[motor1,motor2,motor3,motor4]
-#Set up all the motors
-def Set_UP():
 
-    #Set Duty cycle to 89,I found this works for me
-    motor1.start(89)
-    motor2.start(89)
-    motor3.start(89)
-    motor4.start(89)
-    #Set the Frequincy to stop it from moving and beeping
-    motor1.ChangeFrequency(188)
-    motor1.ChangeFrequency(188)
-    motor1.ChangeFrequency(188)
-    motor1.ChangeFrequency(188)
+pi = pigpio.pi();
 
-def Speed(numb):
-    speeds=list(range(100,89,-1))
-    print(speeds)
-    return speeds[numb]
+max_value = 2500 #change this if your ESC's max value is different or leave it be
+min_value = 1500  #change this if your ESC's min value is different or leave it be
 
-def MotorSpeed(motor,speed):
-    motor.ChangeFrequency(Speed(speed))
+def StartUp():
+    for power in range(min_value,1515,1):
+        for motor in motors:
+            pi.set_servo_pulsewidth(motor, power)
+        time.sleep(1)
+    Stop()
+    
+def Stop(): #This will stop every action your Pi is performing for ESC ofcourse.
+    for motor in motors:
+        pi.set_servo_pulsewidth(motor, min_value)
+    pi.stop()
+    
+def Test():
+    for power in range(1517,1550,1):
+        for motor in motors:
+            pi.set_servo_pulsewidth(motor, power)
+        print(power)
+        time.sleep(5)
+    Stop()
 
-def Stop():
-    motor1.ChangeFrequency(188)
+def MotorSpeed(motor,power):
+    pi.set_servo_pulsewidth(motor, power)
+
 
 if __name__ == "__main__":
-
-    Set_UP()
-    Stop()
-    for motor in motors:
-        for i in range(0,11,1):
-            MotorSpeed(motor,i)
-            print(i)
-            time.sleep(1)
-    Stop()
+    StartUp()

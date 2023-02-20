@@ -1,6 +1,17 @@
 '''
         Read Gyro and Accelerometer by Interfacing Raspberry Pi with MPU6050 using Python
     http://www.electronicwings.com
+
+    Black moves forward
+    White moves back
+    -Gy tilt forward
+    +Gy tilt back
+    +Gx tilt left
+    -Gx tilt right
+    Gz rotate
+    +Ax moves forward
+    -Ax moves backward
+    Az moves up or down
 '''
 import smbus         #import SMBus module of I2C
 from time import sleep          #import
@@ -116,6 +127,9 @@ def DifferentAllResult():
     if (Gx != 0 or Gy != 0 or Gz != 0 or Ax != 0 or Ay != 0 or Az != 0):
         print ("Gx=%s" %Gx, u'\u00b0'+ "/s", "\tGy=%s" %Gy, u'\u00b0'+ "/s", "\tGz=%s" %Gz, u'\u00b0'+ "/s", "\tAx=%s g" %Ax, "\tAy=%s g" %Ay, "\tAz=%s g" %Az)
     
+
+
+
 if __name__ == "__main__":
     
     MPU_Init()
