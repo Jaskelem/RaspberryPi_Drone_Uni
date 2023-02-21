@@ -34,11 +34,11 @@ motors=[motor1,motor2,motor3,motor4]
 
 pi = pigpio.pi();
 
-max_value = 2500 #change this if your ESC's max value is different or leave it be
-min_value = 1500  #change this if your ESC's min value is different or leave it be
-
+maxValue = 2500 #change this if your ESC's max value is different or leave it be
+minValue = 1500  #change this if your ESC's min value is different or leave it be
+currentState=minValue
 def StartUp():
-    for power in range(min_value,1515,1):
+    for power in range(minValue,1515,1):
         for motor in motors:
             pi.set_servo_pulsewidth(motor, power)
         time.sleep(1)
@@ -46,7 +46,7 @@ def StartUp():
     
 def Stop(): #This will stop every action your Pi is performing for ESC ofcourse.
     for motor in motors:
-        pi.set_servo_pulsewidth(motor, min_value)
+        pi.set_servo_pulsewidth(motor, minValue)
     pi.stop()
     
 def Test():
@@ -58,7 +58,8 @@ def Test():
     Stop()
 
 def MotorSpeed(motor,power):
-    pi.set_servo_pulsewidth(motor, power)
+    currentState=+power
+    pi.set_servo_pulsewidth(motor, currentState)
 
 
 if __name__ == "__main__":
