@@ -19,7 +19,7 @@ logging.basicConfig(level=logging.INFO, datefmt='%Y-%m-%d %H:%M:%S',
                     format='%(asctime)-15s - [%(levelname)s] %(module)s: %(message)s', )
 
 parser = argparse.ArgumentParser(description='Receives a decimal code via a 433/315MHz GPIO device')
-parser.add_argument('-g', dest='gpio', type=int, default=27,
+parser.add_argument('-g', dest='gpio', type=int, default=17,
                     help="GPIO pin (Default: 27)")
 args = parser.parse_args()
 
@@ -35,6 +35,15 @@ while True:
             logging.info("X: "+ str(rfdevice.rx_code % 10000))
         if round(rfdevice.rx_code / 10000) == 2:
             logging.info("Y: "+ str(rfdevice.rx_code % 10000))
+        if round(rfdevice.rx_code / 10000) == 3:
+            logging.info("1: "+ str(rfdevice.rx_code % 10000))
+        if round(rfdevice.rx_code / 10000) == 4:
+            logging.info("2: "+ str(rfdevice.rx_code % 10000))
+        if round(rfdevice.rx_code / 10000) == 5:
+            logging.info("3: "+ str(rfdevice.rx_code % 10000))
+        
+        #logging.info(rfdevice.rx_code)
+                
 
         ''' 
          +
