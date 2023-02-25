@@ -20,6 +20,9 @@ def RadioSignal():
         message=int.from_bytes(message_bytes[:2], byteorder='little')
         return message
 
-while True:
+
+
+
+if __name__ == "__main__":
     print(RadioSignal())
     time.sleep(0.1)
