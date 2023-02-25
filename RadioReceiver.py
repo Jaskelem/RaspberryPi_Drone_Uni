@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 
 import argparse
 import signal
@@ -41,15 +41,6 @@ while True:
             logging.info("2: "+ str(rfdevice.rx_code % 10000))
         if round(rfdevice.rx_code / 10000) == 5:
             logging.info("3: "+ str(rfdevice.rx_code % 10000))
-        
-        #logging.info(rfdevice.rx_code)
-                
-
-        ''' 
-         +
-         " [pulselength " + str(rfdevice.rx_pulselength) +
-         ", protocol " + str(rfdevice.rx_proto) + "]")
-         '''
                      
     time.sleep(0.1)
 rfdevice.cleanup()
