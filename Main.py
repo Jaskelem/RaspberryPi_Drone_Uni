@@ -92,7 +92,8 @@ def TurnOff():
 
 def Controll():
     message=RadioReceiverV2.RadioSignal()
-    while (True):
+    turnedOn=True
+    while (turnedOn):
         oldMessage=message
         message=RadioReceiverV2.RadioSignal()
         if ((oldMessage==510 and oldMessage==522) and (message==510 and message==522)):
@@ -113,6 +114,7 @@ def Controll():
             if round(message / 10000) == 5:
                 logging.info("3: "+ str(message % 10000))
                 TurnOff()
+                turnedOn=False
         message=RadioReceiverV2.RadioSignal()    
         time.sleep(0.1)
 
