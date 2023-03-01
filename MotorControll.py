@@ -14,11 +14,12 @@ Duty cycle  -   Frequincy   -   Explanation
 Black forward
 White Back
 """
+import time
 import os     #importing os library so as to communicate with the system
 os.system ("sudo pigpio-master/pigpiod") #Launching GPIO library
 time.sleep(1) # As i said it is too impatient and so if this delay is removed you will get an error
 import pigpio #importing GPIO library
-import time
+
 
 motor1=23  #Connect the ESC in this GPIO pin
 motor2=27  #Connect the ESC in this GPIO pin
@@ -34,15 +35,19 @@ motors=[motor1,motor2,motor3,motor4]
 
 pi = pigpio.pi();
 
-maxValue = 2500 #change this if your ESC's max value is different or leave it be
+maxValue = 2400 #change this if your ESC's max value is different or leave it be
 minValue = 1500  #change this if your ESC's min value is different or leave it be
-currentState=minValue
+currentState1=minValue
+currentState2=minValue
+currentState3=minValue
+currentState4=minValue
 def StartUp():
-    for power in range(minValue,1515,1):
+
+    for power in range(minValue,1518,1):
         for motor in motors:
             pi.set_servo_pulsewidth(motor, power)
-        time.sleep(1)
-    Stop()
+        time.sleep(0.01)
+    #Stop()
     
 def Stop(): #This will stop every action your Pi is performing for ESC ofcourse.
     for motor in motors:
@@ -56,11 +61,47 @@ def Test():
         print(power)
         time.sleep(5)
     Stop()
+def ChangeSpeed(motor,currentState,power):
+    currentState=currentState+power
+    print("Power: "+str(power))
+    
+    if (currentState<minValue):
+        currentState=minValue
+        pi.set_servo_pulsewidth(motor, currentState)
+    elif (currentState>maxValue):
+        currentState=maxValue
+        pi.set_servo_pulsewidth(motor, currentState)
+    else:
+        pi.set_servo_pulsewidth(motor, currentState)
+    
+    print("CurrentState: "+str(currentState)+" Motor: "+str(motor))
+    return currentState
 
 def MotorSpeed(motor,power):
-    currentState=+power
-    pi.set_servo_pulsewidth(motor, currentState)
-
+    global currentState1
+    global currentState2
+    global currentState3
+    global currentState4
+    
+    if(motor==motors[0]):
+        currentState1=ChangeSpeed(motor,currentState1,power)
+    elif(motor==motors[1]):
+        currentState2=ChangeSpeed(motor,currentState2,power)
+    elif(motor==motors[2]):
+        currentState3=ChangeSpeed(motor,currentState3,power)
+    elif(motor==motors[3]):
+        currentState4=ChangeSpeed(motor,currentState4,power)
+    else:
+        print("Bad Parameters in Motor Speed")
 
 if __name__ == "__main__":
     StartUp()
+    print("done")
+    print(currentState1)
+    for i in range(0,200,1):
+        for motor in motors:
+            MotorSpeed(motor,1)
+        time.sleep(0.01)
+    print("motor speed set")
+    time.sleep(5)
+    Stop()

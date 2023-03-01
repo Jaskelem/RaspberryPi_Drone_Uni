@@ -5,122 +5,158 @@ import time
 
 #makes the drone stay in one place
 def Hover():
+
     Gx,Gy,Gz,Ax,Ay,Az=AccGyro.AverageInfo()
-
-    if (Az>0):
+    if (Az>0.2):
         #Reduce hight
+        print("Reduce hight")
+        #for speed in range(0,5,1):
         for motor in MotorControll.motors:
-            MotorControll.MotorSpeed(motor,-5)
-    elif(Az<0):
+            MotorControll.MotorSpeed(motor,-1)
+    elif(Az<-0.2):
         #Increase hight
+        print("Increase hight")
+        #for speed in range(0,5,1):
         for motor in MotorControll.motors:
-            MotorControll.MotorSpeed(motor,5)
+            MotorControll.MotorSpeed(motor,1)
 
-    if (Gy<0):
+    if (Gy>0.1):
         #Tilt Back
-        MotorControll.MotorSpeed(MotorControll.motors[0],5)
-        MotorControll.MotorSpeed(MotorControll.motors[1],5)
-        MotorControll.MotorSpeed(MotorControll.motors[2],-5)
-        MotorControll.MotorSpeed(MotorControll.motors[3],-5)
-    elif (Gy>0):
+        print("Tilt back")
+        #for speed in range(0,5,1):
+        MotorControll.MotorSpeed(MotorControll.motors[0],1)
+        MotorControll.MotorSpeed(MotorControll.motors[1],1)
+        MotorControll.MotorSpeed(MotorControll.motors[2],-1)
+        MotorControll.MotorSpeed(MotorControll.motors[3],-1)
+    elif (Gy<-0.1):
         #Tilt Forward
-        MotorControll.MotorSpeed(MotorControll.motors[0],-5)
-        MotorControll.MotorSpeed(MotorControll.motors[1],-5)
-        MotorControll.MotorSpeed(MotorControll.motors[2],5)
-        MotorControll.MotorSpeed(MotorControll.motors[3],5)
+        print("Tilt forward")
+        #for speed in range(0,5,1):
+        MotorControll.MotorSpeed(MotorControll.motors[0],-1)
+        MotorControll.MotorSpeed(MotorControll.motors[1],-1)
+        MotorControll.MotorSpeed(MotorControll.motors[2],1)
+        MotorControll.MotorSpeed(MotorControll.motors[3],1)
     
-    if (Gx>0):
+    if (Gx<-0.1):
         #Tilt Right
-        MotorControll.MotorSpeed(MotorControll.motors[0],5)
-        MotorControll.MotorSpeed(MotorControll.motors[1],-5)
-        MotorControll.MotorSpeed(MotorControll.motors[2],5)
-        MotorControll.MotorSpeed(MotorControll.motors[3],-5)
-    elif (Gx>0):
+        print("Tilt right")
+        #for speed in range(0,5,1):
+        MotorControll.MotorSpeed(MotorControll.motors[0],1)
+        MotorControll.MotorSpeed(MotorControll.motors[1],-1)
+        MotorControll.MotorSpeed(MotorControll.motors[2],1)
+        MotorControll.MotorSpeed(MotorControll.motors[3],-1)
+    elif (Gx>0.1):
         #Tilt Left
-        MotorControll.MotorSpeed(MotorControll.motors[0],-5)
-        MotorControll.MotorSpeed(MotorControll.motors[1],5)
-        MotorControll.MotorSpeed(MotorControll.motors[2],-5)
-        MotorControll.MotorSpeed(MotorControll.motors[3],5)
+        print("Tilt left")
+        #for speed in range(0,5,1):
+        MotorControll.MotorSpeed(MotorControll.motors[0],-1)
+        MotorControll.MotorSpeed(MotorControll.motors[1],1)
+        MotorControll.MotorSpeed(MotorControll.motors[2],-1)
+        MotorControll.MotorSpeed(MotorControll.motors[3],1)
 
 def xStandartizeNumber(numb):
     #Neutral 510 Min 0 Max 1023
     #number diff 513
-    adjustedNumb=(numb-510)/2
+    print(numb)
+    adjustedNumb=round((numb-510)/10)
+    print("adjustedNumb: "+str(adjustedNumb))
     return adjustedNumb
     
 def yStandartizeNumber(numb):
     #Neutral 522 Min 0 Max 1023
     #number diff 501
-    adjustedNumb=(numb-522)/2
+    adjustedNumb=round((numb-522)/10)
+    print(adjustedNumb)
     return adjustedNumb    
 
 def MoveHorizontally(numb):
     numb=yStandartizeNumber(numb)
-    reverseNumb=numb*-1
-    MotorControll.MotorSpeed(MotorControll.motors[0],reverseNumb)
-    MotorControll.MotorSpeed(MotorControll.motors[1],numb)
-    MotorControll.MotorSpeed(MotorControll.motors[2],reverseNumb)
-    MotorControll.MotorSpeed(MotorControll.motors[3],numb)
+    for speed in range(0,numb,1):
+        MotorControll.MotorSpeed(MotorControll.motors[0],-1)
+        MotorControll.MotorSpeed(MotorControll.motors[1],1)
+        MotorControll.MotorSpeed(MotorControll.motors[2],-1)
+        MotorControll.MotorSpeed(MotorControll.motors[3],1)
 
 def MoveVertically(numb):
     numb=xStandartizeNumber(numb)
-    reverseNumb=numb*-1
-    MotorControll.MotorSpeed(MotorControll.motors[0],reverseNumb)
-    MotorControll.MotorSpeed(MotorControll.motors[1],reverseNumb)
-    MotorControll.MotorSpeed(MotorControll.motors[2],numb)
-    MotorControll.MotorSpeed(MotorControll.motors[3],numb)
+    print("numb: "+str(numb))
+    print("reverseNumb: "+str(numb*-1))
+    for speed in range(0,numb,1):
+        MotorControll.MotorSpeed(MotorControll.motors[0],-1)
+        MotorControll.MotorSpeed(MotorControll.motors[1],-1)
+        MotorControll.MotorSpeed(MotorControll.motors[2],1)
+        MotorControll.MotorSpeed(MotorControll.motors[3],1)
 
 def MoveUp():
     #Increase hight
-    for motor in MotorControll.motors:
-        MotorControll.MotorSpeed(motor,100)
+    for speed in range(0,20,1):
+        for motor in MotorControll.motors:
+            MotorControll.MotorSpeed(motor,1)
 
 def MoveDown():
     #Decrease hight
-    for motor in MotorControll.motors:
-        MotorControll.MotorSpeed(motor,-100)
+    for speed in range(0,20,1):
+        for motor in MotorControll.motors:
+            MotorControll.MotorSpeed(motor,-1)
 
 def TurnOff():
-    for motor in MotorControll.motors:
-        MotorControll.MotorSpeed(motor,-10)
-    Gx,Gy,Gz,Ax,Ay,Az=AccGyro.AverageInfo()
-    if(Az<0):
+    for speed in range(0,10,1):
         for motor in MotorControll.motors:
-            MotorControll.MotorSpeed(motor,-10)
+            MotorControll.MotorSpeed(motor,-1)
+    Gx,Gy,Gz,Ax,Ay,Az=AccGyro.AverageInfo()
+    
+    while(Az<0):
+        for speed in range(0,10,1):
+            for motor in MotorControll.motors:
+                MotorControll.MotorSpeed(motor,-1)
         Gx,Gy,Gz,Ax,Ay,Az=AccGyro.AverageInfo()
+        time.sleep(0.1)
     MotorControll.Stop()
 
 def Controll():
     message=RadioReceiverV2.RadioSignal()
-    turnedOn=True
-    while (turnedOn):
-        oldMessage=message
-        message=RadioReceiverV2.RadioSignal()
-        if ((oldMessage==510 and oldMessage==522) and (message==510 and message==522)):
-            Hover()
-        else:
-            if round(message / 10000) == 1:
-                logging.info("X: "+ str(message % 10000))
-                MoveVertically(message)
-            if round(message / 10000) == 2:
-                logging.info("Y: "+ str(message % 10000))
-                MoveHorizontally(message)
-            if round(message / 10000) == 3:
-                logging.info("1: "+ str(message % 10000))
-                MoveUp()
-            if round(message / 10000) == 4:
-                logging.info("2: "+ str(message % 10000))
-                MoveDown()
-            if round(message / 10000) == 5:
-                logging.info("3: "+ str(message % 10000))
+    noneCount=0
+    while(True):
+        #print(message)
+        if (message==None):
+            noneCount=noneCount+1
+            if (noneCount>100):
                 TurnOff()
-                turnedOn=False
+                return "OFF"
+        else:
+            
+            oldMessage=message % 10000
+            messgeModified=message % 10000
+            noneCount=0
+            if (((oldMessage>500 and oldMessage<520) or (oldMessage>512 and oldMessage<530)) and ((messgeModified>500 and messgeModified<520) or (messgeModified>512 and messgeModified<530))):
+                Hover()
+            else:
+                print("message: "+str(message))
+                modifiedMessage=message % 10000
+                if round(round(message / 10000)) == 1:
+                    print("X: "+ str(message % 10000))
+                    MoveVertically(modifiedMessage)
+                if round(round(message / 10000)) == 2:
+                    print("Y: "+ str(message % 10000))
+                    MoveHorizontally(modifiedMessage)
+                if round(round(message / 10000)) == 3:
+                    print("1: "+ str(message % 10000))
+                    MoveUp()
+                if round(round(message / 10000)) == 4:
+                    print("2: "+ str(message % 10000))
+                    MoveDown()
+                if round(round(message / 10000)) == 5:
+                    print("3: "+ str(message % 10000))
+                    TurnOff()
+                    return "OFF"
         message=RadioReceiverV2.RadioSignal()    
-        time.sleep(0.1)
+        time.sleep(0.005)
 
 
 if __name__ == "__main__":
     
     MotorControll.StartUp() # Start motors so they stop beeping
+    print("Motor Start Up complete")
     AccGyro.MPU_Init()     # Initiate Accelerator and Gyroscope
-    Controll()
+    print("AccGyro Set Up complete")
+    print(Controll())

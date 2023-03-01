@@ -113,7 +113,6 @@ def AverageInfo():
         TAx=+Ax
         TAy=+Ay
         TAz=+Az
-        sleep(0.1)
     TGx=round(math.floor(TGx/5*1000)/1000,1)
     TGy=round(math.floor(TGy/5*1000)/1000,1)
     TGz=round(math.floor(TGz/5*1000)/1000,1)
