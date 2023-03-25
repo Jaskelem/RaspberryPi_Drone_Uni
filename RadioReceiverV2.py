@@ -26,10 +26,11 @@ def RadioSignal():
 if __name__ == "__main__":
     while True:
         signal=RadioSignal()
-        if(signal != None):
-            if(round(signal / 10000) >2):
-                print("----------------------------------------")
-                print(signal)
-                print("----------------------------------------")
+        print(signal)
+       # if(signal != None):
+            #if(round(signal / 10000) >2):
+             #   print("----------------------------------------")
+              #  print(signal)
+             #   print("----------------------------------------")
         #print(signal)
         time.sleep(0.08)

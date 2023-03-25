@@ -58,44 +58,44 @@ def xStandartizeNumber(numb):
     #Neutral 510 Min 0 Max 1023
     #number diff 513
     print(numb)
-    adjustedNumb=round((numb-510)/10)
+    adjustedNumb=round((numb-510)/300)
     print("adjustedNumb: "+str(adjustedNumb))
     return adjustedNumb
     
 def yStandartizeNumber(numb):
     #Neutral 522 Min 0 Max 1023
     #number diff 501
-    adjustedNumb=round((numb-522)/10)
+    adjustedNumb=round((numb-522)/300)
     print(adjustedNumb)
     return adjustedNumb    
 
 def MoveHorizontally(numb):
     numb=yStandartizeNumber(numb)
-    for speed in range(0,numb,1):
-        MotorControll.MotorSpeed(MotorControll.motors[0],-1)
-        MotorControll.MotorSpeed(MotorControll.motors[1],1)
-        MotorControll.MotorSpeed(MotorControll.motors[2],-1)
-        MotorControll.MotorSpeed(MotorControll.motors[3],1)
+    for speed in range(0,1,1):
+        MotorControll.MotorSpeed(MotorControll.motors[0],numb)
+        MotorControll.MotorSpeed(MotorControll.motors[1],-numb)
+        MotorControll.MotorSpeed(MotorControll.motors[2],numb)
+        MotorControll.MotorSpeed(MotorControll.motors[3],-numb)
 
 def MoveVertically(numb):
     numb=xStandartizeNumber(numb)
     print("numb: "+str(numb))
     print("reverseNumb: "+str(numb*-1))
-    for speed in range(0,numb,1):
-        MotorControll.MotorSpeed(MotorControll.motors[0],-1)
-        MotorControll.MotorSpeed(MotorControll.motors[1],-1)
-        MotorControll.MotorSpeed(MotorControll.motors[2],1)
-        MotorControll.MotorSpeed(MotorControll.motors[3],1)
+    for speed in range(0,1,1):
+        MotorControll.MotorSpeed(MotorControll.motors[0],-numb)
+        MotorControll.MotorSpeed(MotorControll.motors[1],-numb)
+        MotorControll.MotorSpeed(MotorControll.motors[2],numb)
+        MotorControll.MotorSpeed(MotorControll.motors[3],numb)
 
 def MoveUp():
     #Increase hight
-    for speed in range(0,20,1):
+    for speed in range(0,10,1):
         for motor in MotorControll.motors:
             MotorControll.MotorSpeed(motor,1)
 
 def MoveDown():
     #Decrease hight
-    for speed in range(0,20,1):
+    for speed in range(0,10,1):
         for motor in MotorControll.motors:
             MotorControll.MotorSpeed(motor,-1)
 
