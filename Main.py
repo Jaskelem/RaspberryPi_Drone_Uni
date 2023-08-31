@@ -20,7 +20,7 @@ def Hover():
         for motor in MotorControll.motors:
             MotorControll.MotorSpeed(motor,1)
 
-    if (Gy>0.1):
+    if (Gy>0.2):
         #Tilt Back
         print("Tilt back")
         #for speed in range(0,5,1):
@@ -28,7 +28,7 @@ def Hover():
         MotorControll.MotorSpeed(MotorControll.motors[1],1)
         MotorControll.MotorSpeed(MotorControll.motors[2],-1)
         MotorControll.MotorSpeed(MotorControll.motors[3],-1)
-    elif (Gy<-0.1):
+    elif (Gy<-0.2):
         #Tilt Forward
         print("Tilt forward")
         #for speed in range(0,5,1):
@@ -37,7 +37,7 @@ def Hover():
         MotorControll.MotorSpeed(MotorControll.motors[2],1)
         MotorControll.MotorSpeed(MotorControll.motors[3],1)
     
-    if (Gx<-0.1):
+    if (Gx<-0.2):
         #Tilt Right
         print("Tilt right")
         #for speed in range(0,5,1):
@@ -45,7 +45,7 @@ def Hover():
         MotorControll.MotorSpeed(MotorControll.motors[1],-1)
         MotorControll.MotorSpeed(MotorControll.motors[2],1)
         MotorControll.MotorSpeed(MotorControll.motors[3],-1)
-    elif (Gx>0.1):
+    elif (Gx>0.2):
         #Tilt Left
         print("Tilt left")
         #for speed in range(0,5,1):

@@ -26,12 +26,12 @@ motor2=27  #Connect the ESC in this GPIO pin
 motor3=22  #Connect the ESC in this GPIO pin
 motor4=10  #Connect the ESC in this GPIO pin
 
-#1st motor left black
-#2st motor right black
-#3st motor left white
-#4st motor right white
+#1st motor left white
+#2st motor right white
+#3st motor left black
+#4st motor right black
 #rearange this depending on how motors are wired
-motors=[motor1,motor2,motor3,motor4]
+motors=[motor1,motor3,motor2,motor4]
 
 pi = pigpio.pi();
 
@@ -83,25 +83,36 @@ def MotorSpeed(motor,power):
     global currentState3
     global currentState4
     
+    print("CurrentMotor: "+ str(motor))
+    
     if(motor==motors[0]):
         currentState1=ChangeSpeed(motor,currentState1,power)
     elif(motor==motors[1]):
         currentState2=ChangeSpeed(motor,currentState2,power)
     elif(motor==motors[2]):
-        currentState3=ChangeSpeed(motor,currentState3,power)
+        currentState3=ChangeSpeed(motor,currentState3,power*1.3)
     elif(motor==motors[3]):
-        currentState4=ChangeSpeed(motor,currentState4,power)
+        currentState4=ChangeSpeed(motor,currentState4,power*1.3)
     else:
         print("Bad Parameters in Motor Speed")
 
 if __name__ == "__main__":
+
     StartUp()
     print("done")
     print(currentState1)
-    for i in range(0,200,1):
-        for motor in motors:
-            MotorSpeed(motor,1)
-        time.sleep(0.01)
+    #For some reason first setup sets all speeds at once , no clue what couses it
+    for motor in motors:
+        MotorSpeed(motor,10)
+        time.sleep(2)
+        MotorSpeed(motor,-10)
+        time.sleep(1)
+    for motor in motors:
+        MotorSpeed(motor,10)
+        time.sleep(2)
+        MotorSpeed(motor,-10)
+        time.sleep(1)
+    #MotorSpeed(motors[2],10)
     print("motor speed set")
-    time.sleep(5)
+    time.sleep(2)
     Stop()
